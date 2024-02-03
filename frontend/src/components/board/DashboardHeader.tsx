@@ -1,8 +1,10 @@
 import {
+  Badge,
   Box,
   Button,
   ButtonGroup,
   Container,
+  Divider,
   IconButton,
   TextField,
   Typography,
@@ -16,6 +18,10 @@ import FilterListIcon from "@mui/icons-material/FilterList";
 import SortIcon from "@mui/icons-material/Sort";
 import { Task } from ".";
 import SortButtonDialog from "./dialogs/SortButtonDialog";
+import AccountCircle from "@mui/icons-material/AccountCircle";
+import LockIcon from "@mui/icons-material/Lock";
+import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
+import CloudSyncIcon from "@mui/icons-material/CloudSync";
 
 function DashBoardHeader({
   tasks,
@@ -25,8 +31,29 @@ function DashBoardHeader({
   handleVisibleTasksUpdated: (tasks: Task[]) => void;
 }) {
   const [title, setTitle] = useState<string>("untitled");
+  const [people, setPeople] = useState<string[]>([
+    "John Doe",
+    "Jane Smith",
+    "Alice Johnson",
+    "Bob Brown",
+    "Jack White",
+    "Jill Black",
+  ]);
   const [search, setSearch] = useState<string>("");
   const [sortButtonOpen, setSortButtonOpen] = useState<boolean>(false);
+
+  const peopleIcons = people.slice(0, 3).map((person, index) => (
+    <IconButton key={index}>
+      <AccountCircle
+        style={{
+          fontSize: 48,
+        }}
+        sx={{
+          marginRight: "-20px",
+        }}
+      />
+    </IconButton>
+  ));
 
   function updateTitle() {
     if (title === "") {
@@ -63,35 +90,145 @@ function DashBoardHeader({
           width: "100%",
         }}
       >
-        <TextField
-          value={title}
-          variant="standard"
-          onChange={(e) => setTitle(e.target.value)}
-          onBlur={updateTitle}
+        <Box
           sx={{
-            padding: 1,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
           }}
-          InputProps={{
-            disableUnderline: true,
-            style: { fontSize: 32 },
-          }}
-        />
+        >
+          <Box>
+            <TextField
+              value={title}
+              variant="standard"
+              onChange={(e) => setTitle(e.target.value)}
+              onBlur={updateTitle}
+              sx={{
+                padding: 1,
+                borderBottom: "1px solid #a5b1c7",
+              }}
+              InputProps={{
+                disableUnderline: true,
+                style: { fontSize: 32, fontWeight: "600" },
+              }}
+            />
+            <EditIcon
+              sx={{
+                color: "#a5b1c7",
+              }}
+              style={{
+                fontSize: 32,
+              }}
+            />
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <Box
+              sx={{
+                marginRight: "20px",
+              }}
+            >
+              {peopleIcons}
+            </Box>
+            {people.length > 3 && (
+              <IconButton>
+                <Badge badgeContent={`+${people.length - 3}`} color="primary">
+                  <AccountCircle
+                    style={{
+                      fontSize: 48,
+                    }}
+                  />
+                </Badge>
+              </IconButton>
+            )}
+          </Box>
+        </Box>
         <Box
           sx={{
             display: "flex",
             justifyContent: "space-between",
           }}
         >
-          <ButtonGroup variant="contained" sx={{ boxShadow: "none" }}>
-            <Button sx={buttonStyle}>
-              <DashboardIcon sx={{ color: "#a5b1c7" }} />
-              Board
-            </Button>
-            <Button sx={buttonStyle}>
-              <DashboardIcon sx={{ color: "#a5b1c7" }} />
-              List
-            </Button>
-          </ButtonGroup>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "left",
+              gap: "20px",
+            }}
+          >
+            <ButtonGroup variant="contained" sx={{ boxShadow: "none" }}>
+              <Button sx={buttonStyle}>
+                <DashboardIcon sx={{ color: "#a5b1c7" }} />
+                Board
+              </Button>
+              <Divider orientation="vertical" flexItem />
+              <Button sx={buttonStyle}>
+                <DashboardIcon sx={{ color: "#a5b1c7" }} />
+                List
+              </Button>
+            </ButtonGroup>
+            <Divider orientation="vertical" flexItem />
+            <Box
+              sx={{
+                display: "flex",
+                gap: "10px",
+                alignItems: "center",
+              }}
+            >
+              <Typography
+                sx={{
+                  color: "#a5b1c7",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "10px",
+                }}
+                fontWeight={600}
+                fontSize={16}
+              >
+                <LockIcon />
+                Limited Access
+              </Typography>
+            </Box>
+            <Divider orientation="vertical" flexItem />
+            <Box
+              sx={{
+                display: "flex",
+                gap: "10px",
+                alignItems: "center",
+              }}
+            >
+              <Typography
+                sx={{ color: "#a5b1c7" }}
+                fontWeight={600}
+                fontSize={16}
+              >
+                Synch
+              </Typography>
+              <IconButton
+                sx={iconButtonStyle}
+                onClick={() => setSortButtonOpen(true)}
+              >
+                <CloudSyncIcon />
+              </IconButton>
+              <Typography
+                sx={{ color: "#a5b1c7" }}
+                fontWeight={600}
+                fontSize={16}
+              >
+                Upload
+              </Typography>
+              <IconButton
+                sx={iconButtonStyle}
+                onClick={() => setSortButtonOpen(true)}
+              >
+                <DriveFolderUploadIcon />
+              </IconButton>
+            </Box>
+          </Box>
           <Box
             sx={{
               display: "flex",
@@ -109,6 +246,7 @@ function DashBoardHeader({
                 boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
                 color: "#606C80",
                 fontWeight: "600",
+                width: "400px",
               }}
               InputProps={{
                 disableUnderline: true,
@@ -120,6 +258,7 @@ function DashBoardHeader({
               }}
               label={<SearchLabel />}
             />
+
             <IconButton sx={iconButtonStyle}>
               <EditIcon />
             </IconButton>

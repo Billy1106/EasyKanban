@@ -2,12 +2,29 @@ export enum STATE {
   BACKLOG = "Backlog",
   STAY = "Stay",
   INPROGRESS = "In Process",
-  DONE = "Done"
+  DONE = "Done",
+}
+
+export const STATE_COLOR = {
+  [STATE.BACKLOG]: "#CA8A04",
+  [STATE.STAY]: "#DB2777",
+  [STATE.INPROGRESS]: "#9333EA",
+  [STATE.DONE]: "#16A34A",
+};
+
+export const TAG_COLOR = {
+  "Bug": "#FF0000",
+  "Feature": "#FF00FF",
+  "Improvement": "#0000FF",
+  "Task": "#FFFF00",
+  "Epic": "#FF00FF",
+  "Story": "#00FFFF",
+  "Urgent": "#FFA500",
 }
 
 export enum MODE {
   BOARD = "BOARD",
-  LIST = "LIST"
+  LIST = "LIST",
 }
 
 export interface Task {

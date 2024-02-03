@@ -1,5 +1,5 @@
 import TaskCard from "./TaskCard";
-import { Task } from ".";
+import { STATE, Task } from ".";
 import { Badge, Box, Container, IconButton, Typography } from "@mui/material";
 import { useDroppable } from "@dnd-kit/core";
 import {
@@ -10,6 +10,7 @@ import AddIcon from "@mui/icons-material/Add";
 import TaskUpdateDialog from "./dialogs/TaskUpdateDialog";
 import { useState } from "react";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import { STATE_COLOR } from ".";
 
 function TaskColumn({ tasks, title }: { tasks: Task[]; title: string }) {
   const { setNodeRef } = useDroppable({ id: title });
@@ -21,17 +22,37 @@ function TaskColumn({ tasks, title }: { tasks: Task[]; title: string }) {
   }
 
   return (
-    <Container maxWidth="xl">
+    <Container maxWidth={false}>
       <Box
         sx={{
           display: "flex",
-          gap: "10px",
           justifyContent: "space-between",
           marginTop: "20px",
           marginBottom: "20px",
         }}
       >
-        <Badge badgeContent={tasks.length} color="secondary">
+        <Badge
+          badgeContent={
+            <Box
+              sx={{
+                backgroundColor: STATE_COLOR[title as STATE] + "30",
+                color: STATE_COLOR[title as STATE],
+                borderRadius: "100%",
+                width: "8px",
+                height: "8px",
+                padding: "8px",
+                fontSize: "15px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontWeight: "900",
+              }}
+            >
+              {tasks.length}
+            </Box>
+          }
+          // The Badge component itself doesn't need additional styling for this case
+        >
           <Typography fontFamily="Inter" fontWeight="600" fontSize="20px">
             {title}
           </Typography>
@@ -50,7 +71,6 @@ function TaskColumn({ tasks, title }: { tasks: Task[]; title: string }) {
             ref={setNodeRef}
             style={{
               minHeight: "600px",
-              minWidth: "340px",
               display: "flex",
               flexDirection: "column",
             }}
@@ -66,7 +86,6 @@ function TaskColumn({ tasks, title }: { tasks: Task[]; title: string }) {
             )}
             <IconButton
               sx={{
-                maxWidth: 340,
                 borderRadius: 2,
               }}
               onClick={() => setAddTaskOpen(true)}

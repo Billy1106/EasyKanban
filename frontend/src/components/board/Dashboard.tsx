@@ -19,7 +19,9 @@ import { useEffect, useState } from "react";
 import TaskCard from "./TaskCard";
 import DashBoardHeader from "./DashboardHeader";
 import { sortTasks, sortByDeadline } from "../../utils/taskUtils.ts";
-import { MODE } from ".";
+import DashboardSidebar from "./DashboardSidebar";
+
+const drawerWidth = 300;
 
 function Dashboard() {
   const [tasks, setTasks] = useState<Task[]>([
@@ -47,7 +49,7 @@ function Dashboard() {
       status: STATE.INPROGRESS,
       deadline: "2024-10-31:20:20:00",
       startedAt: "2024-01-10:20:20:00",
-      tags: ["Landing Page"],
+      tags: ["Feature", "Landing Page"],
     },
     {
       id: "task3",
@@ -76,13 +78,16 @@ function Dashboard() {
       tags: ["Feature"],
     },
   ]);
+
   const [visibleTasks, setVisibleTasks] = useState<Task[]>([...tasks]);
   const dropAnimation: DropAnimation = {
     ...defaultDropAnimation,
   };
   const [activeId, setActiveId] = useState(null);
-  const [displayMode, setDisplayMode] = useState<MODE>(MODE.BOARD);
+  // const [displayMode, setDisplayMode] = useState<MODE>(MODE.BOARD);
+  const [sidebarOpen, setSidebarOpen] = useState<boolean>(true);
   const columns = [STATE.BACKLOG, STATE.STAY, STATE.INPROGRESS, STATE.DONE];
+
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
@@ -92,6 +97,7 @@ function Dashboard() {
   useEffect(() => {
     setVisibleTasks([...sortTasks(tasks, sortByDeadline)]);
   }, []);
+  
   function handleDragOver(event) {
     const { active, over } = event;
     const sourceColumn = findColumnByTaskId(active.id);
@@ -119,8 +125,8 @@ function Dashboard() {
 
   function handleDragEnd(event) {
     const { active, over } = event;
-    const sourceColumn = findColumnByTaskId(active.id);
-    const destinationColumn = findColumnByTaskId(over.id);
+    const sourceColumn = findColumnByTaskId(active?.id);
+    const destinationColumn = findColumnByTaskId(over?.id);
     if (sourceColumn && destinationColumn) {
       setActiveId(null);
     }
@@ -130,6 +136,10 @@ function Dashboard() {
     const { active } = event;
     const { id } = active;
     setActiveId(id);
+  }
+
+  function handleSidebarToggle(isOpen: boolean) {
+    setSidebarOpen(isOpen);
   }
 
   function handleVisibleTasksUpdated(tasks: Task[]) {
@@ -145,48 +155,69 @@ function Dashboard() {
   }
 
   return (
-    <Container maxWidth="xl">
-      <Box
-        sx={{
-          marginBottom: 5,
-        }}
-      >
-        <DashBoardHeader
-          tasks={tasks}
-          handleVisibleTasksUpdated={handleVisibleTasksUpdated}
-        />
-      </Box>
+    <Container maxWidth={false}>
+      <DashboardSidebar
+        drawerWidth={drawerWidth}
+        isOpen={sidebarOpen}
+        handleSidebarToggle={handleSidebarToggle}
+      />
       <Box
         sx={{
           display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "flex-start",
-          gap: "20px",
+          flexDirection: "column",
+          justifyContent: "center",
         }}
+        style={{ padding: "0px" }}
       >
-        <DndContext
-          sensors={sensors}
-          collisionDetection={closestCorners}
-          onDragStart={handleDragStart}
-          onDragOver={handleDragOver}
-          onDragEnd={handleDragEnd}
+        <Box
+          style={{
+            transition: "margin 250ms ease-out",
+            marginLeft: sidebarOpen ? `${drawerWidth}px` : "0",
+          }}
         >
-          {columns.map((column) => (
-            <TaskColumn
-              key={column}
-              title={column}
-              tasks={visibleTasks.filter((task) => task.status === column)}
+          <Box
+            sx={{
+              marginBottom: 5,
+            }}
+          >
+            <DashBoardHeader
+              tasks={tasks}
+              handleVisibleTasksUpdated={handleVisibleTasksUpdated}
             />
-          ))}
-          <DragOverlay dropAnimation={dropAnimation}>
-            {activeId ? (
-              <TaskCard key={activeId} task={findTaskById(activeId)} />
-            ) : (
-              <></>
-            )}
-          </DragOverlay>
-        </DndContext>
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "flex-start",
+              gap: "0px",
+            }}
+          >
+            <DndContext
+              sensors={sensors}
+              collisionDetection={closestCorners}
+              onDragStart={handleDragStart}
+              onDragOver={handleDragOver}
+              onDragEnd={handleDragEnd}
+            >
+              {columns.map((column) => (
+                <TaskColumn
+                  key={column}
+                  title={column}
+                  tasks={visibleTasks.filter((task) => task.status === column)}
+                />
+              ))}
+              <DragOverlay dropAnimation={dropAnimation}>
+                {activeId ? (
+                  <TaskCard key={activeId} task={findTaskById(activeId)} />
+                ) : (
+                  <></>
+                )}
+              </DragOverlay>
+            </DndContext>
+          </Box>
+        </Box>
       </Box>
     </Container>
   );
