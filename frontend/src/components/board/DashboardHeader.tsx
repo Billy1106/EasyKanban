@@ -82,49 +82,11 @@ function DashBoardHeader({
           }}
         >
           <ButtonGroup variant="contained" sx={{ boxShadow: "none" }}>
-            <Button
-              sx={{
-                gap: 1,
-                border: "none",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                padding: "8px 12px",
-                textTransform: "capitalize",
-                backgroundColor: "white",
-                borderRadius: "8px",
-                boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
-                "&:hover": {
-                  backgroundColor: "#f0f0f0",
-                  boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.2)",
-                },
-                color: "#606C80",
-                fontWeight: "600",
-              }}
-            >
+            <Button sx={buttonStyle}>
               <DashboardIcon sx={{ color: "#a5b1c7" }} />
               Board
             </Button>
-            <Button
-              sx={{
-                gap: 1,
-                border: "none",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                padding: "8px 12px",
-                textTransform: "capitalize",
-                backgroundColor: "white",
-                borderRadius: "8px",
-                boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
-                "&:hover": {
-                  backgroundColor: "#f0f0f0",
-                  boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.2)",
-                },
-                color: "#606C80",
-                fontWeight: "600",
-              }}
-            >
+            <Button sx={buttonStyle}>
               <DashboardIcon sx={{ color: "#a5b1c7" }} />
               List
             </Button>
@@ -155,83 +117,16 @@ function DashBoardHeader({
                   margin: "0px",
                 },
               }}
-              label={
-                <Box
-                  sx={{
-                    display: "flex",
-                    gap: "10px",
-                    paddingLeft: "10px",
-                  }}
-                >
-                  <SearchIcon sx={{ color: "#a5b1c7" }} fontSize="medium" />
-                  <Typography
-                    sx={{
-                      fontWeight: "600",
-                      color: "#a5b1c7",
-                    }}
-                  >
-                    Search
-                  </Typography>
-                </Box>
-              }
+              label={<SearchLabel />}
             />
-            <IconButton
-              sx={{
-                gap: 1,
-                border: "none",
-                display: "flex",
-                alignItems: "center",
-                textTransform: "capitalize",
-                backgroundColor: "white",
-                borderRadius: "8px",
-                boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
-                "&:hover": {
-                  backgroundColor: "#f0f0f0",
-                  boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.2)",
-                },
-                color: "#606C80",
-                fontWeight: "600",
-              }}
-            >
+            <IconButton sx={iconButtonStyle}>
               <EditIcon />
             </IconButton>
-            <IconButton
-              sx={{
-                gap: 1,
-                border: "none",
-                display: "flex",
-                alignItems: "center",
-                textTransform: "capitalize",
-                backgroundColor: "white",
-                borderRadius: "8px",
-                boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
-                "&:hover": {
-                  backgroundColor: "#f0f0f0",
-                  boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.2)",
-                },
-                color: "#606C80",
-                fontWeight: "600",
-              }}
-            >
+            <IconButton sx={iconButtonStyle}>
               <FilterListIcon />
             </IconButton>
             <IconButton
-              sx={{
-                gap: 1,
-                border: "none",
-                display: "flex",
-                alignItems: "center",
-                textTransform: "capitalize",
-                backgroundColor: "white",
-                borderRadius: "8px",
-                boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
-                "&:hover": {
-                  backgroundColor: "#f0f0f0",
-                  boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.2)",
-                },
-                color: "#606C80",
-                fontWeight: "600",
-              }}
+              sx={iconButtonStyle}
               onClick={() => setSortButtonOpen(true)}
             >
               <SortIcon />
@@ -247,5 +142,48 @@ function DashBoardHeader({
     </Container>
   );
 }
+
+const buttonStyle = {
+  gap: 1,
+  border: "none",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  padding: "8px 12px",
+  textTransform: "capitalize",
+  backgroundColor: "white",
+  borderRadius: "8px",
+  boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+  "&:hover": {
+    backgroundColor: "#f0f0f0",
+    boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.2)",
+  },
+  color: "#606C80",
+  fontWeight: "600",
+};
+
+const iconButtonStyle = {
+  gap: 1,
+  border: "none",
+  display: "flex",
+  alignItems: "center",
+  textTransform: "capitalize",
+  backgroundColor: "white",
+  borderRadius: "8px",
+  boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+  "&:hover": {
+    backgroundColor: "#f0f0f0",
+    boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.2)",
+  },
+  color: "#606C80",
+  fontWeight: "600",
+};
+
+const SearchLabel = () => (
+  <Box sx={{ display: "flex", gap: "10px", paddingLeft: "10px" }}>
+    <SearchIcon sx={{ color: "#a5b1c7" }} fontSize="medium" />
+    <Typography sx={{ fontWeight: "600", color: "#a5b1c7" }}>Search</Typography>
+  </Box>
+);
 
 export default DashBoardHeader;
