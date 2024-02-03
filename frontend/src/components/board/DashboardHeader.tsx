@@ -15,7 +15,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import SortIcon from "@mui/icons-material/Sort";
 import { Task } from ".";
-import SortButtonDialog from "./buttons/SortButtonDialog";
+import SortButtonDialog from "./dialogs/SortButtonDialog";
 
 function DashBoardHeader({
   tasks,

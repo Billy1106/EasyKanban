@@ -7,7 +7,7 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import AddIcon from "@mui/icons-material/Add";
-import TaskUpdateDialog from "./TaskUpdateDialog";
+import TaskUpdateDialog from "./dialogs/TaskUpdateDialog";
 import { useState } from "react";
 
 function TaskColumn({ tasks, title }: { tasks: Task[]; title: string }) {
