@@ -14,9 +14,11 @@ import {
   defaultDropAnimation,
 } from "@dnd-kit/core";
 
-import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
-import { useState } from "react";
+import { sortableKeyboardCoordinates } from "@dnd-kit/sortable";
+import { useEffect, useState } from "react";
 import TaskCard from "./TaskCard";
+import DashBoardHeader from "./DashboardHeader";
+import { sortTasks, sortByDeadline } from "../../utils/taskUtils.ts";
 
 function Dashboard() {
   const [tasks, setTasks] = useState<Task[]>([
@@ -73,6 +75,7 @@ function Dashboard() {
       tag: "Feature",
     },
   ]);
+  const [visibleTasks, setVisibleTasks] = useState<Task[]>([...tasks]);
   const dropAnimation: DropAnimation = {
     ...defaultDropAnimation,
   };
@@ -84,11 +87,14 @@ function Dashboard() {
       coordinateGetter: sortableKeyboardCoordinates,
     })
   );
-
+  useEffect(() => {
+    setVisibleTasks([...sortTasks(tasks, sortByDeadline)]);
+  }, []);
   function handleDragOver(event) {
     const { active, over } = event;
     const sourceColumn = findColumnByTaskId(active.id);
     const destinationColumn = findColumnByTaskId(over.id);
+
     if (sourceColumn && destinationColumn) {
       const activeIndex = tasks.findIndex((task) => task.id === activeId);
       const overIndex = tasks.findIndex((task) => task.id === over.id);
@@ -124,6 +130,10 @@ function Dashboard() {
     setActiveId(id);
   }
 
+  function handleVisibleTasksUpdated(tasks: Task[]) {
+    setVisibleTasks(tasks);
+  }
+
   function findColumnByTaskId(taskId: string): STATE | undefined {
     return tasks.find((task) => task.id === taskId)?.status;
   }
@@ -133,7 +143,17 @@ function Dashboard() {
   }
 
   return (
-    <Container maxWidth="lg">
+    <Container maxWidth="lg" sx={{ gap: "20px" }}>
+      <Box
+        sx={{
+          marginBottom: 5,
+        }}
+      >
+        <DashBoardHeader
+          tasks={tasks}
+          handleVisibleTasksUpdated={handleVisibleTasksUpdated}
+        />
+      </Box>
       <Box
         sx={{
           display: "flex",
@@ -153,7 +173,7 @@ function Dashboard() {
             <TaskColumn
               key={column}
               title={column}
-              tasks={tasks.filter((task) => task.status === column)}
+              tasks={visibleTasks.filter((task) => task.status === column)}
             />
           ))}
           <DragOverlay dropAnimation={dropAnimation}>
