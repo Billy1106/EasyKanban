@@ -2,28 +2,31 @@ import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
-import Button from "@mui/material/Button";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
-import { useState } from "react";
-import { IconButton } from "@mui/material";
-import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
+import IconButton from "@mui/material/IconButton";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
+import EmailIcon from "@mui/icons-material/Email";
+import GroupIcon from "@mui/icons-material/Group";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
-function DashboardSidebar({
-  isOpen,
-  handleSidebarToggle,
-  drawerWidth,
-}: {
+interface DashboardSidebarProps {
   isOpen: boolean;
   drawerWidth: number;
   handleSidebarToggle: (isOpen: boolean) => void;
-}) {
+}
+
+const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
+  isOpen,
+  drawerWidth,
+  handleSidebarToggle,
+}) => {
   const toggleDrawer =
     (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
       if (
@@ -50,7 +53,15 @@ function DashboardSidebar({
             <ListItem key={text} disablePadding>
               <ListItemButton>
                 <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                  {index === 0 ? (
+                    <DashboardIcon />
+                  ) : index === 1 ? (
+                    <StarBorderIcon />
+                  ) : index === 2 ? (
+                    <EmailIcon />
+                  ) : (
+                    <GroupIcon />
+                  )}
                 </ListItemIcon>
                 <ListItemText primary={text} />
               </ListItemButton>
@@ -64,7 +75,7 @@ function DashboardSidebar({
           <ListItem key={text} disablePadding>
             <ListItemButton>
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                <EmailIcon />
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItemButton>
@@ -76,17 +87,9 @@ function DashboardSidebar({
 
   return (
     <Box sx={{ display: "flex" }}>
-      <Button onClick={toggleDrawer(!isOpen)}>
-        {isOpen ? (
-          <IconButton>
-            <ArrowCircleLeftIcon />
-          </IconButton>
-        ) : (
-          <IconButton>
-            <ArrowCircleLeftIcon />
-          </IconButton>
-        )}
-      </Button>
+      <IconButton onClick={toggleDrawer(!isOpen)}>
+        {isOpen ? <ArrowBackIcon /> : <ArrowForwardIcon />}
+      </IconButton>
       <Drawer
         ModalProps={{
           keepMounted: true, // Better open performance on mobile.
@@ -108,6 +111,6 @@ function DashboardSidebar({
       </Drawer>
     </Box>
   );
-}
+};
 
 export default DashboardSidebar;

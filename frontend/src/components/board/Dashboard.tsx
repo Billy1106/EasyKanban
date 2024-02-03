@@ -97,7 +97,11 @@ function Dashboard() {
   useEffect(() => {
     setVisibleTasks([...sortTasks(tasks, sortByDeadline)]);
   }, []);
-  
+
+  useEffect(() => {
+    setVisibleTasks([...sortTasks(tasks, sortByDeadline)]);
+  }, [tasks]);
+
   function handleDragOver(event) {
     const { active, over } = event;
     const sourceColumn = findColumnByTaskId(active.id);
@@ -124,12 +128,8 @@ function Dashboard() {
   }
 
   function handleDragEnd(event) {
-    const { active, over } = event;
-    const sourceColumn = findColumnByTaskId(active?.id);
-    const destinationColumn = findColumnByTaskId(over?.id);
-    if (sourceColumn && destinationColumn) {
-      setActiveId(null);
-    }
+    handleDragOver(event);
+    setActiveId(null);
   }
 
   function handleDragStart(event) {
@@ -144,6 +144,11 @@ function Dashboard() {
 
   function handleVisibleTasksUpdated(tasks: Task[]) {
     setVisibleTasks(tasks);
+  }
+
+  function handleAddTask(task: Task) {
+    const newTasks = [...tasks, task];
+    setTasks([...newTasks]);
   }
 
   function findColumnByTaskId(taskId: string): STATE | undefined {
@@ -205,6 +210,7 @@ function Dashboard() {
                 <TaskColumn
                   key={column}
                   title={column}
+                  handleAddTask={handleAddTask}
                   tasks={visibleTasks.filter((task) => task.status === column)}
                 />
               ))}

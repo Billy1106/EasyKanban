@@ -6,6 +6,8 @@ import {
   Container,
   Divider,
   IconButton,
+  Tab,
+  Tabs,
   TextField,
   Typography,
 } from "@mui/material";
@@ -43,23 +45,22 @@ function DashBoardHeader({
   const [sortButtonOpen, setSortButtonOpen] = useState<boolean>(false);
 
   const peopleIcons = people.slice(0, 3).map((person, index) => (
-    <IconButton key={index}>
-      <AccountCircle
-        style={{
-          fontSize: 48,
-        }}
-        sx={{
-          marginRight: "-20px",
-        }}
-      />
-    </IconButton>
+    <AccountCircle
+      style={{
+        fontSize: 48,
+        padding: "0px",
+      }}
+      sx={{
+        marginRight: "0px",
+        opacity: 0.5
+      }}
+    />
   ));
 
   function updateTitle() {
     if (title === "") {
       setTitle("untitled");
     }
-    console.log("update title", title);
   }
   function handleSearch(e: React.ChangeEvent<HTMLInputElement>) {
     setSearch(e.target.value);
@@ -120,6 +121,17 @@ function DashBoardHeader({
                 fontSize: 32,
               }}
             />
+          </Box>
+          <Box>
+            <Tabs
+              value={0}
+              onChange={() => {}}
+            >
+              <Tab label="Dashboard" />
+              <Tab label="Calender" />
+              <Tab label="Progress" />
+              <Tab label="Board" />
+            </Tabs>
           </Box>
           <Box
             sx={{
@@ -208,10 +220,7 @@ function DashBoardHeader({
               >
                 Synch
               </Typography>
-              <IconButton
-                sx={iconButtonStyle}
-                onClick={() => setSortButtonOpen(true)}
-              >
+              <IconButton sx={iconButtonStyle} onClick={() => {}}>
                 <CloudSyncIcon />
               </IconButton>
               <Typography
@@ -221,10 +230,7 @@ function DashBoardHeader({
               >
                 Upload
               </Typography>
-              <IconButton
-                sx={iconButtonStyle}
-                onClick={() => setSortButtonOpen(true)}
-              >
+              <IconButton sx={iconButtonStyle} onClick={() => {}}>
                 <DriveFolderUploadIcon />
               </IconButton>
             </Box>
@@ -246,7 +252,7 @@ function DashBoardHeader({
                 boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
                 color: "#606C80",
                 fontWeight: "600",
-                width: "400px",
+                width: "300px",
               }}
               InputProps={{
                 disableUnderline: true,
@@ -300,6 +306,7 @@ const buttonStyle = {
   color: "#606C80",
   fontWeight: "600",
   padding: "0px 50px",
+  height: "50px",
 };
 
 const iconButtonStyle = {

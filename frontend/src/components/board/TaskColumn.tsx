@@ -8,16 +8,31 @@ import {
 } from "@dnd-kit/sortable";
 import AddIcon from "@mui/icons-material/Add";
 import TaskUpdateDialog from "./dialogs/TaskUpdateDialog";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { STATE_COLOR } from ".";
 
-function TaskColumn({ tasks, title }: { tasks: Task[]; title: string }) {
+function TaskColumn({
+  tasks,
+  title,
+  handleAddTask,
+}: {
+  tasks: Task[];
+  title: string;
+  handleAddTask: (task: Task) => void;
+}) {
   const { setNodeRef } = useDroppable({ id: title });
   const [addTaskOpen, setAddTaskOpen] = useState<boolean>(false);
-  const taskIds = tasks.map((task) => task.id);
+  const [taskIds, setTaskIds] = useState<string[]>(tasks.map((task) => task.id));
 
-  function handleCloseDialog() {
+  useEffect(() => {
+    setTaskIds(tasks.map((task) => task.id));
+  }, [tasks]);
+
+  function handleCloseDialog(task: Task | null) {
+    if (task) {
+      handleAddTask(task);
+    }
     setAddTaskOpen(false);
   }
 

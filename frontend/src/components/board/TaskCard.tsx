@@ -56,7 +56,7 @@ function TaskCard({ task }: { task: Task }) {
     >
       <Card
         sx={{
-          maxWidth: 340,
+          width: 340,
           boxShadow: 0,
           borderRadius: 2,
         }}

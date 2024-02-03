@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Chip,
   Dialog,
   DialogActions,
   DialogContent,
@@ -10,7 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
-import { STATE, Task } from "..";
+import { STATE, TAG_COLOR, Task } from "..";
 import { useState } from "react";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -20,7 +21,7 @@ import ErrorAlert from "../../global/ErrorAlert";
 
 export interface TaskUpdateDialogProps {
   open: boolean;
-  onClose: () => void;
+  onClose: (task: Task) => void;
 }
 
 const storyPoints = [
@@ -52,29 +53,43 @@ function TaskUpdateDialog(props: TaskUpdateDialogProps) {
   const [storyPoint, setStoryPoint] = useState<number>(0);
   const [deadline, setDeadline] = useState<string>(new Date().toString());
   const [startedAt, setStartedAt] = useState<string>(new Date().toString());
-  const [success, setSuccess] = useState<boolean>(false);
+  const [success, setSuccess] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
+  const [tags, setTags] = useState<string[]>([]);
+  const [tagInput, setTagInput] = useState<string>("");
 
   const { onClose, open } = props;
 
+  const handleAddTag = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === "Enter" && tagInput) {
+      setTags((prevTags) => [...prevTags, tagInput.trim()]);
+      setTagInput("");
+    }
+  };
+
+  const handleDeleteTag = (tagToDelete: string) => {
+    setTags((prevTags) => prevTags.filter((tag) => tag !== tagToDelete));
+  };
+
   const handleCancel = () => {
-    onClose();
+    onClose(null);
   };
 
   const handleSubmit = () => {
     try {
-      console.log("add:", {
+      setSuccess(true);
+      onClose({
+        id: title + Math.random().toString(),
         title,
         description,
         assignee,
         severity,
         storyPoint,
-        status: STATE.STAY,
+        status: STATE.BACKLOG,
         deadline,
         startedAt,
-      } as Task);
-      setSuccess(true);
-      onClose();
+        tags: tags,
+      } as unknown as Task);
     } catch (err) {
       console.log(err);
       setSuccess(false);
@@ -103,7 +118,7 @@ function TaskUpdateDialog(props: TaskUpdateDialogProps) {
               margin="dense"
               label="Description"
               multiline
-              rows="10"
+              rows="15"
               fullWidth
               onChange={(e) => setDescription(e.target.value)}
             />
@@ -197,6 +212,34 @@ function TaskUpdateDialog(props: TaskUpdateDialogProps) {
                 />
               </Box>
             </LocalizationProvider>
+            <Box sx={{ marginTop: 2 }}>
+              <TextField
+                label="Add a tag"
+                variant="outlined"
+                size="small"
+                fullWidth
+                value={tagInput}
+                onChange={(e) => setTagInput(e.target.value)}
+                onKeyDown={handleAddTag}
+                sx={{ marginBottom: 2 }}
+              />
+              {tags.map((tag, index) => (
+                <Chip
+                  label={tag}
+                  onDelete={() => handleDeleteTag(tag)}
+                  key={index}
+                  size="small"
+                  sx={{
+                    backgroundColor: TAG_COLOR[tag] + "30" ?? "#F5F5F5",
+                    color: TAG_COLOR[tag] ?? "#4a4a4a",
+                    borderRadius: "4px",
+                    fontSize: "12px",
+                    fontWeight: "600",
+                    margin: "2px",
+                  }}
+                />
+              ))}
+            </Box>
           </Grid>
         </Grid>
       </DialogContent>
