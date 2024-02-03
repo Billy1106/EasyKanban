@@ -9,7 +9,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import dayjs, { Dayjs } from "dayjs";
+import dayjs, from "dayjs";
 import { STATE, Task } from ".";
 import { useState } from "react";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
