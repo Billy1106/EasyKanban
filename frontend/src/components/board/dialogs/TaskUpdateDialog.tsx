@@ -9,16 +9,18 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import dayjs, from "dayjs";
-import { STATE, Task } from ".";
+import dayjs from "dayjs";
+import { STATE, Task } from "..";
 import { useState } from "react";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import ErrorAlert from "../../global/ErrorAlert";
+// import SuccessAlert from "../../global/SuccessAlert";
 
 export interface TaskUpdateDialogProps {
   open: boolean;
-  onClose: (value: Task | null) => void;
+  onClose: () => void;
 }
 
 const storyPoints = [
@@ -50,24 +52,34 @@ function TaskUpdateDialog(props: TaskUpdateDialogProps) {
   const [storyPoint, setStoryPoint] = useState<number>(0);
   const [deadline, setDeadline] = useState<string>(new Date().toString());
   const [startedAt, setStartedAt] = useState<string>(new Date().toString());
+  const [success, setSuccess] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
 
   const { onClose, open } = props;
 
   const handleCancel = () => {
-    onClose(null);
+    onClose();
   };
 
   const handleSubmit = () => {
-    onClose({
-      title,
-      description,
-      assignee,
-      severity,
-      storyPoint,
-      status: STATE.STAY,
-      deadline,
-      startedAt,
-    } as Task);
+    try {
+      console.log("add:", {
+        title,
+        description,
+        assignee,
+        severity,
+        storyPoint,
+        status: STATE.STAY,
+        deadline,
+        startedAt,
+      } as Task);
+      setSuccess(true);
+      onClose();
+    } catch (err) {
+      console.log(err);
+      setSuccess(false);
+      setError(err.message);
+    }
   };
 
   return (
@@ -189,9 +201,23 @@ function TaskUpdateDialog(props: TaskUpdateDialogProps) {
         </Grid>
       </DialogContent>
 
-      <DialogActions>
-        <Button onClick={handleCancel}>Cancel</Button>
-        <Button onClick={handleSubmit}>Update</Button>
+      <DialogActions
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+      >
+        <Box>{success ? <></> : <ErrorAlert error={error} />}</Box>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "right",
+            gap: "10px",
+          }}
+        >
+          <Button onClick={handleCancel}>Cancel</Button>
+          <Button onClick={handleSubmit}>Update</Button>
+        </Box>
       </DialogActions>
     </Dialog>
   );

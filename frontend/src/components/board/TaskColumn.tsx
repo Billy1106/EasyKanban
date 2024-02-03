@@ -1,6 +1,6 @@
 import TaskCard from "./TaskCard";
 import { Task } from ".";
-import { Badge, Box, IconButton, Typography } from "@mui/material";
+import { Badge, Box, Container, IconButton, Typography } from "@mui/material";
 import { useDroppable } from "@dnd-kit/core";
 import {
   SortableContext,
@@ -9,27 +9,26 @@ import {
 import AddIcon from "@mui/icons-material/Add";
 import TaskUpdateDialog from "./dialogs/TaskUpdateDialog";
 import { useState } from "react";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 
 function TaskColumn({ tasks, title }: { tasks: Task[]; title: string }) {
   const { setNodeRef } = useDroppable({ id: title });
   const [addTaskOpen, setAddTaskOpen] = useState<boolean>(false);
   const taskIds = tasks.map((task) => task.id);
 
-  function handleCloseDialog(task: Task | null) {
-    if (task) {
-      //add task here
-    }
+  function handleCloseDialog() {
     setAddTaskOpen(false);
   }
 
   return (
-    <Box>
+    <Container maxWidth="xl">
       <Box
         sx={{
           display: "flex",
           gap: "10px",
-          marginTop: "30px",
-          marginBottom: "30px",
+          justifyContent: "space-between",
+          marginTop: "20px",
+          marginBottom: "20px",
         }}
       >
         <Badge badgeContent={tasks.length} color="secondary">
@@ -37,6 +36,9 @@ function TaskColumn({ tasks, title }: { tasks: Task[]; title: string }) {
             {title}
           </Typography>
         </Badge>
+        <IconButton>
+          <MoreHorizIcon />
+        </IconButton>
       </Box>
       <Box>
         <SortableContext
@@ -75,7 +77,7 @@ function TaskColumn({ tasks, title }: { tasks: Task[]; title: string }) {
         </SortableContext>
         <TaskUpdateDialog open={addTaskOpen} onClose={handleCloseDialog} />
       </Box>
-    </Box>
+    </Container>
   );
 }
 export default TaskColumn;

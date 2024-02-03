@@ -1,7 +1,13 @@
 export enum STATE {
+  BACKLOG = "Backlog",
   STAY = "Stay",
   INPROGRESS = "In Process",
   DONE = "Done"
+}
+
+export enum MODE {
+  BOARD = "BOARD",
+  LIST = "LIST"
 }
 
 export interface Task {
@@ -14,7 +20,7 @@ export interface Task {
   status: STATE;
   deadline: string;
   startedAt: string;
-  tag: string;
+  tags: string[];
 }
 
 export interface Column {

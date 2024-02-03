@@ -74,7 +74,11 @@ function TaskCard({ task }: { task: Task }) {
                 justifyContent: "space-between",
               }}
             >
-              <Chip label={task.tag} size="small" />
+              <Box sx={{ display: "flex", gap: "10px" }}>
+                {task.tags.map((tag) => (
+                  <Chip label={tag} size="small" />
+                ))}
+              </Box>
               <Box
                 sx={{ cursor: isDragging ? "grabbing" : "grab" }}
                 ref={setActivatorNodeRef}

@@ -46,6 +46,7 @@ function DashBoardHeader({
   }
   return (
     <Container
+      maxWidth="xl"
       sx={{
         minHeight: "100px",
         display: "flex",
@@ -149,7 +150,6 @@ const buttonStyle = {
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  padding: "8px 12px",
   textTransform: "capitalize",
   backgroundColor: "white",
   borderRadius: "8px",
@@ -160,6 +160,7 @@ const buttonStyle = {
   },
   color: "#606C80",
   fontWeight: "600",
+  padding: "0px 50px",
 };
 
 const iconButtonStyle = {

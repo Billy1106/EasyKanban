@@ -19,6 +19,7 @@ import { useEffect, useState } from "react";
 import TaskCard from "./TaskCard";
 import DashBoardHeader from "./DashboardHeader";
 import { sortTasks, sortByDeadline } from "../../utils/taskUtils.ts";
+import { MODE } from ".";
 
 function Dashboard() {
   const [tasks, setTasks] = useState<Task[]>([
@@ -33,7 +34,7 @@ function Dashboard() {
       status: STATE.INPROGRESS,
       deadline: "2024-02-31:20:20:00",
       startedAt: "2024-01-20:20:20:00",
-      tag: "Login",
+      tags: ["Login", "Urgent"],
     },
     {
       id: "task2",
@@ -46,7 +47,7 @@ function Dashboard() {
       status: STATE.INPROGRESS,
       deadline: "2024-10-31:20:20:00",
       startedAt: "2024-01-10:20:20:00",
-      tag: "Landing Page",
+      tags: ["Landing Page"],
     },
     {
       id: "task3",
@@ -59,7 +60,7 @@ function Dashboard() {
       status: STATE.DONE,
       deadline: "2024-01-30:20:20:00",
       startedAt: "2023-12-30:20:20:00",
-      tag: "Database",
+      tags: ["Database"],
     },
     {
       id: "task4",
@@ -72,7 +73,7 @@ function Dashboard() {
       status: STATE.STAY,
       deadline: "2024-12-31:20:20:00",
       startedAt: "2024-01-20:20:20:00",
-      tag: "Feature",
+      tags: ["Feature"],
     },
   ]);
   const [visibleTasks, setVisibleTasks] = useState<Task[]>([...tasks]);
@@ -80,7 +81,8 @@ function Dashboard() {
     ...defaultDropAnimation,
   };
   const [activeId, setActiveId] = useState(null);
-  const columns = [STATE.STAY, STATE.INPROGRESS, STATE.DONE];
+  const [displayMode, setDisplayMode] = useState<MODE>(MODE.BOARD);
+  const columns = [STATE.BACKLOG, STATE.STAY, STATE.INPROGRESS, STATE.DONE];
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
@@ -143,7 +145,7 @@ function Dashboard() {
   }
 
   return (
-    <Container maxWidth="lg" sx={{ gap: "20px" }}>
+    <Container maxWidth="xl">
       <Box
         sx={{
           marginBottom: 5,
@@ -160,6 +162,7 @@ function Dashboard() {
           flexDirection: "row",
           justifyContent: "space-between",
           alignItems: "flex-start",
+          gap: "20px",
         }}
       >
         <DndContext
