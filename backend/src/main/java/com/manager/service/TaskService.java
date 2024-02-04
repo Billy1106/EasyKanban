@@ -41,11 +41,36 @@ public class TaskService {
         task.setAssignee(taskRequest.getAssignee());
         task.setSeverity(taskRequest.getSeverity());
         task.setStoryPoint(taskRequest.getStoryPoint());
+        task.setStatus(taskRequest.getStatus());
+        task.setDeadline(taskRequest.getDeadline());
+        task.setStartedAt(taskRequest.getStartedAt());
+        task.setTags(taskRequest.getTags());
+        task.setTitle(taskRequest.getTitle());
         return repository.save(task);
     }
 
     public String deleteTask(String id) {
         repository.deleteById(id);
         return id + " task deleted from dashboard";
+    }
+
+    public List<Task> getTasksByStatus(String status) {
+        return repository.getTasksByStatus(status);
+    }
+
+    public List<Task> getTasksByTags(String tag) {
+        return repository.getTasksByTags(tag);
+    }
+
+    public List<Task> getTasksByDeadline(String deadline) {
+        return repository.getTasksByDeadline(deadline);
+    }
+
+    public List<Task> getTasksByStartedAt(String startedAt) {
+        return repository.getTasksByStartedAt(startedAt);
+    }
+
+    public List<Task> getTasksByTitle(String title) {
+        return repository.getTasksByTitle(title);
     }
 }

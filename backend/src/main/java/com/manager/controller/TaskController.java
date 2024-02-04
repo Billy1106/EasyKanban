@@ -48,4 +48,30 @@ public class TaskController {
     public String deleteTask(@PathVariable String id) {
         return service.deleteTask(id);
     }
+
+    @GetMapping("/status/{status}")
+    public List<Task> findTasksByStatus(@PathVariable String status) {
+        return service.getTasksByStatus(status);
+    }
+
+    @GetMapping("/tags/{tag}")
+    public List<Task> findTasksByTags(@PathVariable String tag) {
+        return service.getTasksByTags(tag);
+    }
+
+    @GetMapping("/deadline/{deadline}")
+    public List<Task> findTasksByDeadline(@PathVariable String deadline) {
+        return service.getTasksByDeadline(deadline);
+    }
+
+    @GetMapping("/startedAt/{startedAt}")
+    public List<Task> findTasksByStartedAt(@PathVariable String startedAt) {
+        return service.getTasksByStartedAt(startedAt);
+    }
+
+    @GetMapping("/title/{title}")
+    public List<Task> findTasksByTitle(@PathVariable String title) {
+        return service.getTasksByTitle(title);
+    }
+
 }

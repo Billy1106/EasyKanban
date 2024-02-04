@@ -13,9 +13,13 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Task {
     @Id
     private String taskId;
+    private String title;
     private String description;
     private int severity;
     private String assignee;
     private int storyPoint;
-
-}
+    private String status;
+    private String deadline;
+    private String startedAt;
+    private String[] tags;
+}  
