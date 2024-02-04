@@ -41,10 +41,11 @@ function DashBoardHeader({
     "Jack White",
     "Jill Black",
   ]);
+  setPeople(people);
   const [search, setSearch] = useState<string>("");
   const [sortButtonOpen, setSortButtonOpen] = useState<boolean>(false);
 
-  const peopleIcons = people.slice(0, 3).map((person, index) => (
+  const peopleIcons = people.slice(0, 3).map(() => (
     <AccountCircle
       style={{
         fontSize: 48,

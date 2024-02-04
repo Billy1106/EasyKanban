@@ -22,7 +22,6 @@ export const sortBySeverity = (a:Task, b:Task) => a.severity - b.severity;
 export const sortByStoryPoint = (a: Task, b:Task) => a.storyPoint - b.storyPoint;
 export const sortByAssignee = (a: Task, b:Task) => a.assignee.localeCompare(b.assignee);
 export const sortByStatus = (a: Task, b:Task) => a.status.localeCompare(b.status);
-export const sortByTag = (a: Task, b:Task) => a.tag.localeCompare(b.tag);
 export const sortByStartedAt = (a: Task, b:Task) => new Date(a.startedAt).getTime() - new Date(b.startedAt).getTime();
 export const sortByTitle = (a: Task, b:Task) => a.title.localeCompare(b.title);
 export const sortByDescription = (a: Task, b:Task) => a.description.localeCompare(b.description);
