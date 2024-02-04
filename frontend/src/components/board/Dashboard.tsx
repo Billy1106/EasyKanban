@@ -97,9 +97,6 @@ function Dashboard() {
       coordinateGetter: sortableKeyboardCoordinates,
     })
   );
-  useEffect(() => {
-    setVisibleTasks([...sortTasks(tasks, sortByDeadline)]);
-  }, []);
 
   useEffect(() => {
     setVisibleTasks([...sortTasks(tasks, sortByDeadline)]);
