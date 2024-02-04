@@ -28,8 +28,28 @@ Adding new tasks is simple and straightforward, ensuring you can quickly capture
 
 ## Getting Started
 
-To get started with EasyKanban, clone the repository and follow the setup instructions:
+To get started with EasyKanban:
 
-```bash
-git clone https://github.com/Billy1106/EasyKanban.git
-cd EasyKanban
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/Billy1106/EasyKanban.git
+    ```
+2. Navigate to the project directory:
+    ```bash
+    cd EasyKanban
+    ```
+3. Set mongo uri at application.yml
+4. Run the project through docker-compopse:
+    ```bash
+    docker-compose up -d --build
+    ```
+
+This will start the frontend project on `localhost:3000` by default, backend project on `localhost:8080` and you can view it in your browser.
+
+## Contributing
+
+Contributions are welcome! Please read our [contributing guide](CONTRIBUTING.md) for more information on how to contribute to EasyKanban.
+
+## License
+
+EasyKanban is released under the [MIT License](LICENSE). See the LICENSE file for more details.
