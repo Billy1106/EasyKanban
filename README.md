@@ -2,6 +2,7 @@
 
 EasyKanban is a user-friendly Kanban board application designed to manage your tasks efficiently with drag and drop features, seamless transitions, and a convenient search functionality to enhance your productivity.
 <img width="1397" alt="スクリーンショット 2024-02-03 午後3 52 57" src="https://github.com/Billy1106/EasyKanban/assets/58086762/d097d443-86c2-4baf-9ac1-a94288bc5908">
+demo:[link](https://main.d39bs8224nr2i8.amplifyapp.com/)
 
 ## Features
 
