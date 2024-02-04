@@ -1,5 +1,8 @@
 spring:
   data:
     mongodb:
-      uri: {$MONGO_URI}
+      uri: ${MONGODB_URI}
       database : Task
+  devtools:
+    livereload:
+      enabled: true
