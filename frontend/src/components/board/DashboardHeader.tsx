@@ -33,15 +33,15 @@ function DashBoardHeader({
   handleVisibleTasksUpdated: (tasks: Task[]) => void;
 }) {
   const [title, setTitle] = useState<string>("untitled");
-  const [people, setPeople] = useState<string[]>([
+  const people: string[] = [
     "John Doe",
     "Jane Smith",
     "Alice Johnson",
     "Bob Brown",
     "Jack White",
     "Jill Black",
-  ]);
-  setPeople(people);
+  ];
+
   const [search, setSearch] = useState<string>("");
   const [sortButtonOpen, setSortButtonOpen] = useState<boolean>(false);
 
@@ -53,7 +53,7 @@ function DashBoardHeader({
       }}
       sx={{
         marginRight: "0px",
-        opacity: 0.5
+        opacity: 0.5,
       }}
     />
   ));
@@ -124,10 +124,7 @@ function DashBoardHeader({
             />
           </Box>
           <Box>
-            <Tabs
-              value={0}
-              onChange={() => {}}
-            >
+            <Tabs value={0} onChange={() => {}}>
               <Tab label="Dashboard" />
               <Tab label="Calender" />
               <Tab label="Progress" />

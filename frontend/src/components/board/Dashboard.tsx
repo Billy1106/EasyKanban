@@ -100,6 +100,10 @@ function Dashboard() {
 
   useEffect(() => {
     setVisibleTasks([...sortTasks(tasks, sortByDeadline)]);
+  }, []);
+
+  useEffect(() => {
+    setVisibleTasks([...sortTasks(tasks, sortByDeadline)]);
   }, [tasks]);
 
   function handleDragOver(event: DragOverEvent) {
