@@ -11,7 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
-import { STATE, TAG_COLOR, Task } from "..";
+import { STATE, TAG, TAG_COLOR, Task } from "..";
 import { useState } from "react";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -21,7 +21,7 @@ import ErrorAlert from "../../global/ErrorAlert";
 
 export interface TaskUpdateDialogProps {
   open: boolean;
-  onClose: (task: Task) => void;
+  onClose: (task: Task | null) => void;
 }
 
 const storyPoints = [
@@ -93,7 +93,7 @@ function TaskUpdateDialog(props: TaskUpdateDialogProps) {
     } catch (err) {
       console.log(err);
       setSuccess(false);
-      setError(err.message);
+      setError("Failed to create task");
     }
   };
 
@@ -157,7 +157,7 @@ function TaskUpdateDialog(props: TaskUpdateDialogProps) {
               min={1}
               max={10}
               valueLabelDisplay="auto"
-              onChange={(_, value: number) => setSeverity(value as number)}
+              onChange={(_, value: number | number[]) => setSeverity(value as number)}
               sx={{
                 padding: "0px",
                 color: "grey",
@@ -181,7 +181,7 @@ function TaskUpdateDialog(props: TaskUpdateDialogProps) {
               min={1}
               max={13}
               valueLabelDisplay="auto"
-              onChange={(_, value: number) => setStoryPoint(value as number)}
+              onChange={(_, value: number | number[]) => setStoryPoint(value as number)}
               sx={{
                 padding: "1px",
                 color: "grey",
@@ -230,8 +230,8 @@ function TaskUpdateDialog(props: TaskUpdateDialogProps) {
                   key={index}
                   size="small"
                   sx={{
-                    backgroundColor: TAG_COLOR[tag] + "30" ?? "#F5F5F5",
-                    color: TAG_COLOR[tag] ?? "#4a4a4a",
+                    backgroundColor: TAG_COLOR[tag as TAG] + "30" ?? "#F5F5F5",
+                    color: TAG_COLOR[tag as TAG] ?? "#4a4a4a",
                     borderRadius: "4px",
                     fontSize: "12px",
                     fontWeight: "600",

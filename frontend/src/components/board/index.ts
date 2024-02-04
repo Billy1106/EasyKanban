@@ -5,6 +5,16 @@ export enum STATE {
   DONE = "Done",
 }
 
+export enum TAG {
+  BUG = "Bug",
+  FEATURE = "Feature",
+  IMPROVEMENT = "Improvement",
+  TASK = "Task",
+  EPIC = "Epic",
+  STORY = "Story",
+  URGENT = "Urgent",
+}
+
 export const STATE_COLOR = {
   [STATE.BACKLOG]: "#CA8A04",
   [STATE.STAY]: "#DB2777",
@@ -13,13 +23,13 @@ export const STATE_COLOR = {
 };
 
 export const TAG_COLOR = {
-  "Bug": "#FF0000",
-  "Feature": "#FF00FF",
-  "Improvement": "#0000FF",
-  "Task": "#FFFF00",
-  "Epic": "#FF00FF",
-  "Story": "#00FFFF",
-  "Urgent": "#FFA500",
+  [TAG.BUG]: "#FF0000",
+  [TAG.FEATURE]: "#FF00FF",
+  [TAG.IMPROVEMENT]: "#0000FF",
+  [TAG.TASK]: "#FFFF00",
+  [TAG.EPIC]: "#FF00FF",
+  [TAG.STORY]: "#00FFFF",
+  [TAG.URGENT]: "#FFA500",
 }
 
 export enum MODE {

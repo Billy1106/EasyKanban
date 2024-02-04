@@ -5,9 +5,6 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogTitle,
-  IconButton,
-  Typography,
 } from "@mui/material";
 import SortIcon from "@mui/icons-material/Sort";
 
@@ -35,6 +32,7 @@ export interface SortButtonDialogProps {
 function SortButtonDialog(props: SortButtonDialogProps) {
   const { onClose, open, tasks } = props;
   const [ascending, setAscending] = useState<boolean>(true);
+  console.log(ascending);
 
   const handleCancel = () => {
     onClose([...tasks]);

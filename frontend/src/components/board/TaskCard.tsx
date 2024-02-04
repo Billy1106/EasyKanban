@@ -12,7 +12,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import DateRangeIcon from "@mui/icons-material/DateRange";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { TAG_COLOR, type Task } from ".";
+import { TAG, TAG_COLOR, type Task } from ".";
 import DragHandleIcon from "@mui/icons-material/DragHandle";
 import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
 
@@ -76,8 +76,8 @@ function TaskCard({ task }: { task: Task }) {
               <Box sx={{ display: "flex", gap: "10px" }}>
                 {task.tags.map((tag) => (
                   <Chip label={tag} key={tag} size="small" sx={{
-                    backgroundColor: TAG_COLOR[tag] + "30" ?? "#F5F5F5",
-                    color: TAG_COLOR[tag] ?? "#4a4a4a",
+                    backgroundColor: TAG_COLOR[tag as TAG] + "30" ?? "#F5F5F5",
+                    color: TAG_COLOR[tag as TAG] ?? "#4a4a4a",
                     borderRadius: "4px",
                     fontSize: "12px",
                     fontWeight: "600",

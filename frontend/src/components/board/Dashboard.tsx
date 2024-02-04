@@ -12,6 +12,9 @@ import {
   DragOverlay,
   DropAnimation,
   defaultDropAnimation,
+  DragEndEvent,
+  DragStartEvent,
+  DragOverEvent
 } from "@dnd-kit/core";
 
 import { sortableKeyboardCoordinates } from "@dnd-kit/sortable";
@@ -83,7 +86,7 @@ function Dashboard() {
   const dropAnimation: DropAnimation = {
     ...defaultDropAnimation,
   };
-  const [activeId, setActiveId] = useState(null);
+  const [activeId, setActiveId] = useState<string | null>(null);
   // const [displayMode, setDisplayMode] = useState<MODE>(MODE.BOARD);
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(true);
   const columns = [STATE.BACKLOG, STATE.STAY, STATE.INPROGRESS, STATE.DONE];
@@ -102,14 +105,15 @@ function Dashboard() {
     setVisibleTasks([...sortTasks(tasks, sortByDeadline)]);
   }, [tasks]);
 
-  function handleDragOver(event) {
+  function handleDragOver(event: DragOverEvent) {
     const { active, over } = event;
-    const sourceColumn = findColumnByTaskId(active.id);
-    const destinationColumn = findColumnByTaskId(over.id);
+    
+    const sourceColumn = findColumnByTaskId(active.id as string);
+    const destinationColumn = findColumnByTaskId(over?.id as string);
 
     if (sourceColumn && destinationColumn) {
       const activeIndex = tasks.findIndex((task) => task.id === activeId);
-      const overIndex = tasks.findIndex((task) => task.id === over.id);
+      const overIndex = tasks.findIndex((task) => task.id === over?.id);
       const overTask = tasks[overIndex];
       const activeTask = tasks[activeIndex];
       if (overTask && activeTask) {
@@ -121,21 +125,21 @@ function Dashboard() {
       }
     } else {
       const activeIndex = tasks.findIndex((task) => task.id === activeId);
-      const activeTask = tasks[activeIndex];
-      activeTask.status = over.id;
+      const activeTask = tasks[activeIndex] as Task;
+      activeTask.status = over?.id as STATE;
     }
     setTasks([...tasks]);
   }
 
-  function handleDragEnd(event) {
+  function handleDragEnd(event :DragEndEvent) {
     handleDragOver(event);
     setActiveId(null);
   }
 
-  function handleDragStart(event) {
+  function handleDragStart(event: DragStartEvent) {
     const { active } = event;
     const { id } = active;
-    setActiveId(id);
+    setActiveId(id as string);
   }
 
   function handleSidebarToggle(isOpen: boolean) {
